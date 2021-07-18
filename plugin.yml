@@ -1,0 +1,9 @@
+name: GamemodeUI
+main: GamemodeUI\Main
+author: HaykalPRO
+version: 2.0.1
+api: [3.0.0]
+github: https://github.com/HorlandoSR/GamemodeUI
+commands:
+ gui:
+  description: Select A Gamemode With Menu UI! 
