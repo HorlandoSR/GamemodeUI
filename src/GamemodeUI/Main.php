@@ -1,87 +1,69 @@
 <?php
+namespace haykalpro\st;
 
-namespace gamemodeui;
-
-use pocketmine\Player;
 use pocketmine\Server;
-use pocketmine\event\Listener;
+use pocketmine\Player;
+
 use pocketmine\plugin\PluginBase;
+
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 
+use pocketmine\event\Listener;
+
 class Main extends PluginBase implements Listener{
     
-    public function onEnable(){
-        $this->getLogger()->info("§l§aPlugin Enable!");
-        $this->getServer()->getPluginManager()->registerEvents($this,$this);
-    }
-
-    public function onLoad(){
-        $this->getLogger()->info("§l§6Plugin Load...");
-    }
-
-    public function onEnable(){
-        $this->getLogger()->info("§l§cPlugin Disable, Not Detected FormAPI");
+  public function onEnable(){
+    $this->getLogger()->info("§l§aPlugin Enable");
+  }
+    
+  public function onCommand(CommandSender $sender, Command $cmd, String $label, Array $args): bool {
+    switch($cmd->getName()) {
+      case "gui":
+        if ($sender instanceof Player) {
+          $this->gui($sender);
+          } else{
+                $sender->sendMessage("§l§cUse Command In Game");
+          }
+        }
+      return true;
     }
     
-    public function onCommand(CommandSender $sender, Command $cmd, string $label, array $args): bool{
-      if($command->getName() === "gui"){
-        if($sender->hasPermission("gui.cmd")){
-        switch($cmd->getName()){
-            case "gui":
-                if($sender instanceof Player){
-                    $this->gui($sender);
-                    return true;
-                }else{
-                    $sender->sendMessage("§l§cUse this cmd in Game!");
-                }
+    public function gui($player){
+      $form = $this->getServer()->getPluginManager()->getPlugin("FormAPI")->createSimpleForm(function (Player $player, int $data = null){
+        if($data == null){
+          return true;
+        }
+        switch($data){
+          case 0:
+            $player->sendMessage("§l§f[§gGamemodeUI§f] §l§cExit Gamemode UI");
+            break;
+          case 1:
+            $player->sendMessage("§l§f[§gGamemodeUI§f] §aChange Survival");
+            $player->setGamemode(Player::SURVIVAL);
+            break;
+          case 2:
+            $player->sendMessage("§l§f[§gGamemodeUI§f] §aChange Creative");
+            $player->setGamemode(Player::CREATIVE);
+            break;
+          case 3:
+            $player->sendMessage("§l§f[§gGamemodeUI§f] §aChange Spectator");
+            $player->setGamemode(Player::SPECTATOR);
+            break;
+          case 4:
+            $player->sendMessage("§l§f[§gGamemodeUI§f] §aChange Spectator");
+            $player->setGamemode(Player::ADVENTURE);
             break;
         }
-        return true;
-    }
-    
-    public function gui($sender){
-        $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
-        $form = $api->createSimpleForm(function(Player $sender, int $data = null) {
-            $result = $data;
-            if($result == null){
-                return true;
-            }
-            switch($result){
-                case 0:
-                    $sender->sendMessage("§l§aClose GamemodeUI");
-                break;
-
-                case 1:
-                    $player->sendMessage("§l§f[§gGamemodeUI§f] §aChange Survival");
-                    $player->setGamemode(Player::SURVIVAL);
-                break;
-
-                case 2:
-                    $player->sendMessage("§l§f[§gGamemodeUI§f] §aChange Creative");
-                    $player->setGamemode(Player::CREATIVE);
-                break;
-                
-                case 3:
-                    $player->sendMessage("§l§f[§gGamemodeUI§f] §aChange Spectator");
-                    $player->setGamemode(Player::SPECTATOR);
-                break;
-
-                case 4:
-                    $player->sendMessage("§l§f[§gGamemodeUI§f] §aChange Adventure");
-                    $player->setGamemode(Player::ADVENTURE);
-                break;
-
-            }
-        });
-        $form->setTitle("§l§gGAMEMODEUI");
-        $form->setContent("§6Choose Your Gamemode");
-        $form->addButton("§c§lExit", 0, "textures/ui/cancel");
-        $form->addButton("§6§lGamemode Survival", 1, "textures/ui/op");
-        $form->addButton("§6§lGamemode Creative", 2, "textures/ui/op");
-        $form->addButton("§6§lGamemode Spectator", 3, "textures/ui/op");
-        $form->addButton("§6§lGamemode Adventure", 4, "textures/ui/op");
-        $form->sendToPlayer($sender);
-        return $form;
-    }
-}
+      });
+      
+      $form->setTitle("§l§gGamemodeUI");
+      $form->addButton("§l§cExit \n§r§fTap To Exit", 0, "op");
+      $form->addButton("§l§6Survival \n§r§fTap To Survival", 1, "textures/ui/op");
+      $form->addButton("§l§6Creative \n§r§fTap To Creative", 2, "textures/ui/op");
+      $form->addButton("§l§6Spectator \n§r§fTap To Spectator", 3, "textures/ui/op");
+      $form->addButton("§l§6Adventure \n§r§fTap To Adventure", 4, "textures/ui/op");
+      
+      $form->sendToPlayer($player);
+      return $form;
+  }
