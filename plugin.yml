@@ -1,9 +1,10 @@
 name: GamemodeUI
-main: GamemodeUI\Main
-author: HaykalPRO
 version: 1.0.0
-api: [3.0.0]
+main: haykalpro\gamemodeui\main
+api: 3.0.0
+author: HaykalPRO
 github: https://github.com/HorlandoSR/GamemodeUI
+
 commands:
- gui:
-  description: §l§aSelect Gamemode! 
+              gui:
+                  description: "§l§aSelect Gamemode!"
