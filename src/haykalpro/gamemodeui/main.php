@@ -67,3 +67,4 @@ class Main extends PluginBase implements Listener{
       $form->sendToPlayer($player);
       return $form;
   }
+}
