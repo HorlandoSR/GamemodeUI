@@ -52,7 +52,7 @@ class Main extends PluginBase implements Listener{
             break;
           case 4:
             $player->sendMessage("§l§f[§gGamemodeUI§f] §aChange Spectator");
-            $sender->setGamemode(2);
+            $player->setGamemode(2);
             break;
         }
       });
