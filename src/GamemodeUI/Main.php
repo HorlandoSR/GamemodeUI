@@ -9,8 +9,6 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 
-use jojoe77777\FormAPI;
-
 class Main extends PluginBase implements Listener{
     
     public function onEnable(){
@@ -32,7 +30,7 @@ class Main extends PluginBase implements Listener{
         switch($cmd->getName()){
             case "gui":
                 if($sender instanceof Player){
-                    $this->openMyForm($sender);
+                    $this->gui($sender);
                     return true;
                 }else{
                     $sender->sendMessage("§l§cUse this cmd in Game!");
@@ -42,7 +40,7 @@ class Main extends PluginBase implements Listener{
         return true;
     }
     
-    public function openMyForm($sender){
+    public function gui($sender){
         $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
         $form = $api->createSimpleForm(function(Player $sender, int $data = null) {
             $result = $data;
@@ -55,19 +53,23 @@ class Main extends PluginBase implements Listener{
                 break;
 
                 case 1:
-                    $this->getServer()->getCommandMap()->dispatch($sender, "gamemode survival");
+                    $player->sendMessage("§l§f[§gGamemodeUI§f] §aChange Survival");
+                    $player->setGamemode(Player::SURVIVAL);
                 break;
 
                 case 2:
-                    $this->getServer()->getCommandMap()->dispatch($sender, "gamemode survival");
+                    $player->sendMessage("§l§f[§gGamemodeUI§f] §aChange Creative");
+                    $player->setGamemode(Player::CREATIVE);
                 break;
                 
                 case 3:
-                    $this->getServer()->getCommandMap()->dispatch($sender, "gamemode spectator");
+                    $player->sendMessage("§l§f[§gGamemodeUI§f] §aChange Spectator");
+                    $player->setGamemode(Player::SPECTATOR);
                 break;
 
                 case 4:
-                    $this->getServer()->getCommandMap()->dispatch($sender, "gamemode adventure");
+                    $player->sendMessage("§l§f[§gGamemodeUI§f] §aChange Adventure");
+                    $player->setGamemode(Player::ADVENTURE);
                 break;
 
             }
