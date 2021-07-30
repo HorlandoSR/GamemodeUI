@@ -1,5 +1,5 @@
 <?php
-namespace haykalpro\st;
+namespace GamemodeUI;
 
 use pocketmine\Server;
 use pocketmine\Player;
